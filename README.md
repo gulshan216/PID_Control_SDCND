@@ -1,5 +1,32 @@
-# CarND-Controls-PID
-Self-Driving Car Engineer Nanodegree Program
+# PID Control Project
+
+The purpose of the project is to implement a PID controller and tune the PID hyperparameters to maneuver the vehicle around a track in the simulator.
+The PID controller must respond with steering and throttle commands to drive the car reliably around the simulator track.
+The simulator will provides the cross track error (CTE) and the velocity (mph) in order to compute the appropriate steering angle.
+
+## Rubric Discussion Points
+* Describe the effect each of the P, I, D components had in your implementation. 
+
+The P component had as expected a proportional effect on the steering of the car based on the cross track error. 
+But only using the P component, the vehicle always overshooted the reference line and hence the car was wobbling around a lot in the simulator.
+
+Adding the I component was supposed to help overcome the systematic bias problem. 
+But for the car in the simulator, adding the I component did not have much effect.
+
+The D component helped a lot in keeping the car in the center of the lane as much possible as it counteracted the effect of the car overshooting the reference line.
+
+* Describe how the final hyperparameters were chosen.
+
+The parameters were tuned by performing some manual twiddling. Initially I started with the values of P,I,D coefficients set to 1,0,0 to just check the effect of the proportional component.
+As expected the car overshooted the reference line and went to the non-drivable part of the track.
+Then to turn down the effect of the proportional component i tuned the value of P component to 0.3. 
+Then i basically added the D-component to reduce the ringing effect of the car and set the parameters to 0.3,0,1.0.
+This reduced the ringing effect a bit but still not by a lot. So as we do in twiddle i first increased the value of D-component by 1 and set the parameters to 0.3,0,2.0
+This significantly reduced the ringing effect and so i incremented the value of D-component by 1 again and set the parameters to 0.3,0,3.0 to see the effect. 
+And the total error reduced again but incrementing Kd any further did not improve the performance.
+Now tried adding the I-component by setting the parameters to 0.3,1.0,3.0. This had a very adverse effect on the total error.
+I had to tune down the parameter a lot to get the performance similar to just the PD-controller. I ended up tuning the I-parameter as low as 0.001.
+The performance mainly improved on turns. Hence my final set of chosen hyperparameters were 0.3,0.001,3.0 
 
 ---
 
